@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 ## usefull codes for projects that uses cosmos sdk
+=======
+# Usefull codes for projects that uses cosmos sdk
+
+>>>>>>> 918b4ae329294c48da3b1f979ac7e11ecac3e036
 cosmos sdk kullanan projelermiçin kullanışlı kodlar
+
+> 
 
 just replace !! wtih project name+d
 For example our projects name is sei and we just add d to end. seid

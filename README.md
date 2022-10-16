@@ -2,76 +2,59 @@
 hey hey
 
 Servis Yönetimi
-Logları Kontrol Et:
+Logları Kontrol Et:journalctl -fu seid -o cat
 
-journalctl -fu seid -o cat
-Servisi Başlat:
+Servisi Başlat:systemctl start seid
 
-systemctl start seid
-Servisi Durdur:
+Servisi Durdur:systemctl stop seid
 
-systemctl stop seid
-Servisi Yeniden Başlat:
+Servisi Yeniden Başlat:systemctl restart seid
 
-systemctl restart seid
 Node Bilgileri
-Senkronizasyon Bilgisi:
+Senkronizasyon Bilgisi:seid status 2>&1 | jq .SyncInfo
 
-seid status 2>&1 | jq .SyncInfo
-Validator Bilgisi:
+Validator Bilgisi:seid status 2>&1 | jq .ValidatorInfo
 
-seid status 2>&1 | jq .ValidatorInfo
-Node Bilgisi:
+Node Bilgisi:seid status 2>&1 | jq .NodeInfo
 
-seid status 2>&1 | jq .NodeInfo
-Node ID Göser:
+Node ID Göser:seid tendermint show-node-id
 
-seid tendermint show-node-id
 Cüzdan İşlemleri
-Cüzdanları Listele:
+Cüzdanları Listele:seid keys list
 
-seid keys list
-Mnemonic kullanarak cüzdanı kurtar:
+Mnemonic kullanarak cüzdanı kurtar:seid keys add $WALLET --recover
 
-seid keys add $WALLET --recover
-Cüzdan Silme:
+Cüzdan Silme:seid keys delete $WALLET
 
-seid keys delete $WALLET
-Cüzdan Bakiyesi Sorgulama:
+Cüzdan Bakiyesi Sorgulama:seid query bank balances $WALLET_ADDRESS
 
-seid query bank balances $WALLET_ADDRESS
-Cüzdandan Cüzdana Bakiye Transferi:
+Cüzdandan Cüzdana Bakiye Transferi:seid tx bank send $WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000usei
 
-seid tx bank send $WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000usei
-Oylama
-seid tx gov vote 1 yes --from $WALLET --chain-id=$CHAIN_ID
+Oylama: seid tx gov vote 1 yes --from $WALLET --chain-id=$CHAIN_ID
+
 Stake, Delegasyon ve Ödüller
-Delegate İşlemi:
+Delegate İşlemi:seid tx staking delegate $VALOPER_ADDRESS 10000000usei --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
 
-seid tx staking delegate $VALOPER_ADDRESS 10000000usei --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
-Payını doğrulayıcıdan başka bir doğrulayıcıya yeniden devretme:
+Payını doğrulayıcıdan başka bir doğrulayıcıya yeniden devretme:seid tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000usei --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
 
-seid tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000usei --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
-Tüm ödülleri çek:
+Tüm ödülleri çek:seid tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
 
-seid tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$CHAIN_ID --gas=auto
-Komisyon ile ödülleri geri çekin:
+Komisyon ile ödülleri geri çekin:seid tx distribution withdraw-rewards $VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$CHAIN_ID
 
-seid tx distribution withdraw-rewards $VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$CHAIN_ID
 Doğrulayıcı Yönetimi
 Validatör İsmini Değiştir:
-
 seid tx staking edit-validator \
 --moniker=NEWNODENAME \
 --chain-id=$CHAIN_ID \
 --from=$WALLET
-Hapisten Kurtul(Unjail):
 
+Hapisten Kurtul(Unjail):
 seid tx slashing unjail \
 	--broadcast-mode=block \
 	--from=$WALLET \
 	--chain-id=$CHAIN_ID \
 	--gas=auto
+
 Node Tamamen Silmek:
 
 sudo systemctl stop seid && \
